@@ -13,6 +13,13 @@ public class Pasto {
         this.rebanhoAtual = 0; // Inicia-se 0
     }
 
+    public Pasto(int id, String local, int capacidade, int rebanhoAtual) {
+        this.id = id;
+        this.local = local;
+        this.capacidade = capacidade;
+        this.rebanhoAtual = rebanhoAtual; // Inicia-se 0
+    }
+
     public Pasto(Pasto pasto) {
         this.id = pasto.id;
         this.local = pasto.local;
@@ -42,11 +49,33 @@ public class Pasto {
         return this.capacidade == this.rebanhoAtual;
     }
 
+    // Getters
     public int getId() {
         return this.id;
     }
 
+    public String getLocal() {
+        return this.local;
+    }
+
+    public int getCapacidade() {
+        return this.capacidade;
+    }
+
     public int getRebanhoAtual() {
         return this.rebanhoAtual;
+    }
+
+    // Setters
+    public void setLocal(String local) {
+        this.local = local;
+    }
+
+    public void setCapacidade(int capacidade) {
+        this.capacidade = capacidade;
+    }
+
+    public void setRebanhoAtual(int rebanhoAtual) {
+        this.rebanhoAtual = rebanhoAtual;
     }
 }

@@ -24,8 +24,11 @@ public class ManejoManager {
     // List manejos
     public void list() {
         ArrayList<Manejo> manejos = this.manejoRepository.findAll();
-
         System.out.println("Listando manejos...");
+
+        if (manejos.size() <= 0) {
+            System.out.println("Nenhuma vaquinha encontrada");
+        }
         for (Manejo manejo: manejos) {
             System.out.println(manejo.manejoInfoFormated());
         }
@@ -37,43 +40,35 @@ public class ManejoManager {
 
         // Inputs
         System.out.print("ID do animal: ");
-        Integer idVaca = input.nextInt();
-
-        System.out.print("ID do pasto: ");
-        Integer idPasto = input.nextInt();
+        int idVaca = input.nextInt();
 
         // Find
         Vaca vaca = this.vacaRepository.findById(idVaca);
-        Pasto pasto = this.pastoRepository.findById(idPasto);
-
-        // ID validation
-        if (vaca == null) {
-            System.out.println("Não foi possível encontrar vaca");
-            return;
-        }
-        if (pasto == null) {
-            System.out.println("Não foi possível encontrar pasto");
-            return;
-        }
-
-        // Manejada?
         if (vaca.getIsManejada()) {
             System.out.println("A vaca já está vinculada a um pasto");
             return;
         }
-        // Pasto cheio?
+
+        // Inputs
+        System.out.print("ID do pasto: ");
+        int idPasto = input.nextInt();
+
+        // Find
+        Pasto pasto = this.pastoRepository.findById(idPasto);
         if (pasto.isFull()) {
             System.out.println("Capacidade máxima do pasto atingida");
             return;
         }
 
         // Create
-        this.manejoRepository.insert(vaca, pasto);
-        System.out.println("Manejo registrado com sucesso!");
+        this.manejoRepository.insert(idVaca, idPasto);
 
         // Results
         pasto.addVaquinha();
+        this.pastoRepository.update(pasto);
+
         vaca.setIsManejada(true);
+        this.vacaRepository.update(vaca);
     }
 
     public void remove() {
@@ -85,23 +80,22 @@ public class ManejoManager {
 
         // Find
         Manejo manejo = this.manejoRepository.findById(idManejo);
-        Pasto pasto = this.pastoRepository.findById(manejo.getPasto().getId());
-        if (pasto == null) {
-            System.out.println("Não foi possível encontrar pasto");
+        if (manejo == null) {
+            System.out.println("Não foi possível encontrar manejo");
             return;
         }
-        Vaca vaca = this.vacaRepository.findById(manejo.getVaca().getId());
-        if (vaca == null) {
-            System.out.println("Não foi possível encontrar vaca");
-            return;
-        }
+
+        Vaca vaca = this.vacaRepository.findById(manejo.getIdVaca());
+        Pasto pasto = this.pastoRepository.findById(manejo.getIdPasto());
 
         // Remove
         this.manejoRepository.remove(idManejo);
-        System.out.println("Manejo removido com sucesso!");
 
         // Results
         pasto.removeVaquinha();
+        this.pastoRepository.update(pasto);
+
         vaca.setIsManejada(false);
+        this.vacaRepository.update(vaca);
     }
 }

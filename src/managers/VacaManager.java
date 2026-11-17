@@ -18,10 +18,13 @@ public class VacaManager {
     }
 
     public void list() {
-        ArrayList<Vaca> vaquinhas = this.vacaRepository.findAll();
-
+        ArrayList<Vaca> vacas = this.vacaRepository.findAll();
         System.out.println("Listando vaquinhas...");
-        for (Vaca vaca: vaquinhas) {
+
+        if (vacas.size() <= 0) {
+            System.out.println("Nenhuma vaquinha encontrada");
+        }
+        for (Vaca vaca: vacas) {
             System.out.println(vaca.vacaInfoFormated());
         }
     }
@@ -38,7 +41,6 @@ public class VacaManager {
 
         // Create
         this.vacaRepository.insert(nome, brinco);
-        System.out.println("Vaca registrada com sucesso!");
     }
 
     public void remove() {
@@ -48,19 +50,7 @@ public class VacaManager {
         System.out.print("ID da animal: ");
         Integer idVaca = input.nextInt();
 
-        // Find
-        Vaca vaca = this.vacaRepository.findById(idVaca);
-        if (vaca == null) {
-            System.out.println("Não foi possível encontrar vaca");
-        }
-
-        if (vaca.getIsManejada()) {
-            System.out.println("A vaca já está vinculada a um pasto");
-            return;
-        }
-
         // Remove
         this.vacaRepository.remove(idVaca);
-        System.out.println("Vaca removida com sucesso!");
     }
 }

@@ -18,8 +18,11 @@ public class PastoManager {
 
     public void list() {
         ArrayList<Pasto> pastos = this.pastoRepository.findAll();
-
         System.out.println("Listando pastos...");
+
+        if (pastos.size() <= 0) {
+            System.out.println("Nenhum pasto encontrado");
+        }
         for (Pasto pasto: pastos) {
             System.out.println(pasto.pastoInfoFormated());
         }
@@ -41,7 +44,6 @@ public class PastoManager {
 
         // Create
         this.pastoRepository.insert(local, capacidade);
-        System.out.println("Pasto registrado com sucesso!");
     }
 
     public void remove() {
@@ -51,21 +53,7 @@ public class PastoManager {
         System.out.print("ID do pasto: ");
         Integer idPasto = input.nextInt();
 
-        // Find
-        Pasto pasto = this.pastoRepository.findById(idPasto);
-        if (pasto == null) {
-            System.out.println("Não foi possível encontrar pasto");
-            return;
-        }
-
-        // Validation
-        if (pasto.getRebanhoAtual() > 0) {
-            System.out.println("O pasto contém animais vinculados");
-            return;
-        }
-
         // Remove
         this.pastoRepository.remove(idPasto);
-        System.out.println("Pasto removido com sucesso!");
     }
 }

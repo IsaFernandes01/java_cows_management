@@ -4,15 +4,27 @@ import java.util.Date;
 
 public class Manejo {
     protected int id;
-    protected Vaca vaca;
-    protected Pasto pasto;
+    protected int idVaca;
+    protected int idPasto;
     protected Date dataManejo;
 
-    public Manejo(int id, Vaca vaca, Pasto pasto) {
+    // Extra fields
+    protected String vaca;
+    protected String pasto;
+
+    public Manejo(int id, int idVaca, int idPasto) {
         this.id = id;
+        this.idVaca = idVaca;
+        this.idPasto = idPasto;
+    }
+
+    public Manejo(int id, int idVaca, int idPasto, Date dataManejo, String vaca, String pasto) {
+        this.id = id;
+        this.idVaca = idVaca;
+        this.idPasto = idPasto;
+        this.dataManejo = dataManejo;
         this.vaca = vaca;
         this.pasto = pasto;
-        this.dataManejo = new Date(); // Automatico
     }
 
     public Manejo(Manejo manejo) {
@@ -23,24 +35,35 @@ public class Manejo {
     }
 
     public String manejoInfoFormated() {
-        Vaca vaca = this.vaca.vacaInfo();
-        Pasto pasto = this.pasto.pastoInfo();
-        return "[ID: " + this.id + "] Vaquinha: " + vaca.nome + " - Pasto: " + pasto.local + " - Data do manejo: " + this.dataManejo;
+        return "[ID: " + this.id + "] Vaquinha: " + this.vaca + " - Pasto: " + this.pasto + " - Data do manejo: " + this.dataManejo;
     }
 
     public Manejo manejoInfo() {
         return new Manejo(this);
     }
 
+    // Getters
     public int getId() {
         return this.id;
     }
 
-    public Pasto getPasto() {
+    public int getIdVaca() {
+        return this.idVaca;
+    }
+
+    public int getIdPasto() {
+        return this.idPasto;
+    }
+
+    public Date getDataManejo() {
+        return this.dataManejo;
+    }
+
+    public String getPasto() {
         return this.pasto;
     }
 
-    public Vaca getVaca() {
+    public String getVaca() {
         return this.vaca;
     }
 }
