@@ -40,7 +40,8 @@ public class VacaManager {
         String brinco = input.nextLine();
 
         // Create
-        this.vacaRepository.insert(nome, brinco);
+        Vaca vaca = new Vaca(nome, brinco);
+        this.vacaRepository.insert(vaca);
     }
 
     public void remove() {

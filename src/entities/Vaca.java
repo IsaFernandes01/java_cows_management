@@ -8,6 +8,12 @@ public class Vaca {
     protected String brinco;
     protected boolean isManejada;
 
+    // Insertion Constructor
+    public Vaca(String nome, String brinco) {
+        this.nome = nome;
+        this.brinco = brinco;
+    }
+
     public Vaca(int id, String nome, String brinco) {
         this.id = id;
         this.nome = nome;

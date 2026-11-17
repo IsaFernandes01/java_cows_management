@@ -1,14 +1,15 @@
 package repositories;// Repository não conhece quem o chama
 import connection.Conn;
 import entities.Vaca;
+import interfaces.CrudRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class VacaRepository {
-    private int nextId = 1;
+public class VacaRepository implements CrudRepository<Vaca, Integer> {
 
-    public void insert(String nome, String brinco) {
+    @Override
+    public void insert(Vaca vaca) {
         String sql = "INSERT INTO vacas(nome, brinco) VALUES (?, ?)";
 
         PreparedStatement stmt = null;
@@ -16,8 +17,8 @@ public class VacaRepository {
         try {
             Connection conn = Conn.getConn();
             stmt = conn.prepareStatement(sql);
-            stmt.setString(1, nome);
-            stmt.setString(2, brinco);
+            stmt.setString(1, vaca.getNome());
+            stmt.setString(2, vaca.getBrinco());
 
             stmt.executeUpdate();
             System.out.println("Vaca cadastrada com sucesso no banco!");
@@ -34,6 +35,7 @@ public class VacaRepository {
         }
     }
 
+    @Override
     public Vaca findById(Integer id)  {
         Vaca vaca = null;
         String sql = "SELECT * FROM vacas WHERE id = ?";
@@ -65,6 +67,7 @@ public class VacaRepository {
         return vaca;
     }
 
+    @Override
     public ArrayList<Vaca> findAll() {
         ArrayList<Vaca> vacas = new ArrayList<>();
 
@@ -99,6 +102,7 @@ public class VacaRepository {
         return vacas;
     }
 
+    @Override
     public void update(Vaca vaca) { // Nova instancia atualizada
         String sql = "UPDATE vacas SET nome = ?, brinco = ?, isManejada = ? WHERE id = ?";
 
@@ -131,6 +135,7 @@ public class VacaRepository {
         }
     }
 
+    @Override
     public void remove(Integer id) {
         String sql = "DELETE FROM vacas WHERE id = ?";
 

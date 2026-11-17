@@ -12,6 +12,12 @@ public class Manejo {
     protected String vaca;
     protected String pasto;
 
+    // Insertion Constructor
+    public Manejo(int idVaca, int idPasto) {
+        this.idVaca = idVaca;
+        this.idPasto = idPasto;
+    }
+
     public Manejo(int id, int idVaca, int idPasto) {
         this.id = id;
         this.idVaca = idVaca;

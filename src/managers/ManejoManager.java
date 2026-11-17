@@ -61,7 +61,8 @@ public class ManejoManager {
         }
 
         // Create
-        this.manejoRepository.insert(idVaca, idPasto);
+        Manejo manejo = new Manejo(idVaca, idPasto);
+        this.manejoRepository.insert(manejo);
 
         // Results
         pasto.addVaquinha();

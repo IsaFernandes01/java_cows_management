@@ -1,8 +1,10 @@
 package repositories;// Repository não conhece quem o chama
 
 import connection.Conn;
+import entities.Manejo;
 import entities.Pasto;
 import entities.Vaca;
+import interfaces.CrudRepository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,10 +12,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class PastoRepository {
-    private int nextId = 1;
+public class PastoRepository implements CrudRepository<Pasto, Integer> {
 
-    public void insert(String local, int capacidade) {
+    @Override
+    public void insert(Pasto pasto) {
         String sql = "INSERT INTO pastos(local, capacidade) VALUES (?, ?)";
 
         PreparedStatement stmt = null;
@@ -21,8 +23,8 @@ public class PastoRepository {
         try {
             Connection conn = Conn.getConn();
             stmt = conn.prepareStatement(sql);
-            stmt.setString(1, local);
-            stmt.setInt(2, capacidade);
+            stmt.setString(1, pasto.getLocal());
+            stmt.setInt(2, pasto.getCapacidade());
 
             stmt.executeUpdate();
             System.out.println("Pasto cadastrado com sucesso no banco!");
@@ -33,6 +35,7 @@ public class PastoRepository {
         }
     }
 
+    @Override
     public Pasto findById(Integer id) {
         Pasto pasto = null;
         String sql = "SELECT * FROM pastos WHERE id = ?";
@@ -64,6 +67,7 @@ public class PastoRepository {
         return pasto;
     }
 
+    @Override
     public ArrayList<Pasto> findAll() {
         ArrayList<Pasto> pastos = new ArrayList<>();
 
@@ -97,6 +101,7 @@ public class PastoRepository {
         return pastos;
     }
 
+    @Override
     public void update(Pasto pasto) { // Nova instancia atualizada
         String sql = "UPDATE pastos SET local = ?, capacidade = ?, rebanhoAtual = ? WHERE id = ?";
 
@@ -131,6 +136,7 @@ public class PastoRepository {
         }
     }
 
+    @Override
     public void remove(Integer id) {
         String sql = "DELETE FROM pastos WHERE id = ?";
 

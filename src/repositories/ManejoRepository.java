@@ -4,6 +4,8 @@ import connection.Conn;
 import entities.Manejo;
 import entities.Pasto;
 import entities.Vaca;
+import interfaces.CrdRepository;
+import interfaces.CrudRepository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,10 +14,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ManejoRepository {
-    private int nextId = 1;
+public class ManejoRepository implements CrdRepository<Manejo, Integer> {
 
-    public void insert(int idVaca, int idPasto) {
+    @Override
+    public void insert(Manejo manejo) {
         String sql = "INSERT INTO manejos(idVaca, idPasto) VALUES (?, ?)";
 
         PreparedStatement stmt = null;
@@ -23,8 +25,8 @@ public class ManejoRepository {
         try {
             Connection conn = Conn.getConn();
             stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, idVaca);
-            stmt.setInt(2, idPasto);
+            stmt.setInt(1, manejo.getIdVaca());
+            stmt.setInt(2, manejo.getIdPasto());
 
             stmt.executeUpdate();
 
@@ -44,6 +46,7 @@ public class ManejoRepository {
         }
     }
 
+    @Override
     public Manejo findById(Integer id) {
         Manejo manejo = null;
         String sql = """
@@ -90,6 +93,7 @@ public class ManejoRepository {
         return manejo;
     }
 
+    @Override
     public ArrayList<Manejo> findAll() {
         ArrayList<Manejo> manejos = new ArrayList<>();
 
@@ -137,6 +141,7 @@ public class ManejoRepository {
         return manejos;
     }
 
+    @Override
     public void remove(Integer id) {
         String sql = "DELETE FROM manejos WHERE id = ?";
 

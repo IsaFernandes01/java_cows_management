@@ -6,6 +6,13 @@ public class Pasto {
     protected int capacidade;
     protected int rebanhoAtual;
 
+
+    // Insertion Constructor
+    public Pasto(String local, int capacidade) {
+        this.local = local;
+        this.capacidade = capacidade;
+    }
+
     public Pasto(int id, String local, int capacidade) {
         this.id = id;
         this.local = local;

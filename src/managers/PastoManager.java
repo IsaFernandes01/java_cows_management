@@ -43,7 +43,8 @@ public class PastoManager {
         }
 
         // Create
-        this.pastoRepository.insert(local, capacidade);
+        Pasto pasto = new Pasto(local, capacidade);
+        this.pastoRepository.insert(pasto);
     }
 
     public void remove() {
